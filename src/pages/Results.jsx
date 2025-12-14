@@ -82,64 +82,85 @@ export default function Results() {
           </div>
         ) : (
           <section className="space-y-4">
-            {candidates.map((candidate, index) => {
-              const votes = candidate.votes || 0;
-              const percentage =
-                totalVotes > 0 ? Math.round((votes / totalVotes) * 100) : 0;
+  {candidates.map((candidate, index) => {
+    const votes = candidate.votes || 0;
+    const percentage =
+      totalVotes > 0 ? Math.round((votes / totalVotes) * 100) : 0;
 
-              const isLeading = index === 0 && votes > 0;
+    const isLeading = index === 0 && votes > 0;
 
-              return (
-                <article
-                  key={candidate.id}
-                  className="group rounded-3xl border border-slate-800 bg-slate-900/80 px-4 py-4 shadow-md transition hover:border-emerald-500/60 hover:shadow-lg hover:shadow-emerald-900/40"
-                >
-                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <h2 className="text-sm font-semibold text-slate-50">
-                          {candidate.name}
-                        </h2>
-                        {isLeading && (
-                          <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-medium text-emerald-200 border border-emerald-400/60">
-                            Leading
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-xs text-emerald-300">
-                        {candidate.party}
-                      </p>
-                      {candidate.description && (
-                        <p className="text-[11px] text-slate-400 line-clamp-2">
-                          {candidate.description}
-                        </p>
-                      )}
-                    </div>
+    return (
+      <article
+        key={candidate.id}
+        className="group rounded-3xl border border-slate-800 bg-slate-900/80 px-4 py-4 shadow-md transition hover:border-emerald-500/60 hover:shadow-lg hover:shadow-emerald-900/40"
+      >
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          {/* Left: Image + Info */}
+          <div className="flex items-start gap-3">
+            {/* Candidate Image */}
+            <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-full border border-slate-700 bg-slate-800">
+              <img
+                src={candidate.imageUrl}
+                alt={candidate.name}
+                className="h-full w-full object-cover"
+                onError={(e) => {
+                  e.target.src =
+                    "https://ui-avatars.com/api/?background=064e3b&color=d1fae5&name=" +
+                    encodeURIComponent(candidate.name);
+                }}
+              />
+            </div>
 
-                    <div className="text-right space-y-1">
-                      <p className="text-lg font-semibold text-emerald-300">
-                        {votes}
-                        <span className="ml-1 text-xs text-slate-400 font-normal">
-                          votes
-                        </span>
-                      </p>
-                      <p className="text-[11px] text-slate-400">
-                        {percentage}% of total
-                      </p>
-                    </div>
-                  </div>
+            {/* Name, Party, Description */}
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <h2 className="text-sm font-semibold text-slate-50">
+                  {candidate.name}
+                </h2>
+                {isLeading && (
+                  <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-medium text-emerald-200 border border-emerald-400/60">
+                    Leading
+                  </span>
+                )}
+              </div>
 
-                  {/* Progress bar */}
-                  <div className="mt-3 h-2 w-full rounded-full bg-slate-800 overflow-hidden">
-                    <div
-                      className={`h-full rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 transition-all duration-500`}
-                      style={{ width: `${percentage}%` }}
-                    />
-                  </div>
-                </article>
-              );
-            })}
-          </section>
+              <p className="text-xs text-emerald-300">
+                {candidate.party}
+              </p>
+
+              {candidate.description && (
+                <p className="text-[11px] text-slate-400 line-clamp-2">
+                  {candidate.description}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Right: Votes & Percentage */}
+          <div className="text-right space-y-1">
+            <p className="text-lg font-semibold text-emerald-300">
+              {votes}
+              <span className="ml-1 text-xs text-slate-400 font-normal">
+                votes
+              </span>
+            </p>
+            <p className="text-[11px] text-slate-400">
+              {percentage}% of total
+            </p>
+          </div>
+        </div>
+
+        {/* Progress bar */}
+        <div className="mt-3 h-2 w-full rounded-full bg-slate-800 overflow-hidden">
+          <div
+            className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 transition-all duration-500"
+            style={{ width: `${percentage}%` }}
+          />
+        </div>
+      </article>
+    );
+  })}
+</section>
         )}
       </div>
     </div>

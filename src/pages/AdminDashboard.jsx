@@ -20,6 +20,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [electionId, setElectionId] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
 
   const navigate = useNavigate();
@@ -69,27 +70,29 @@ export default function AdminDashboard() {
 
   // Add candidate
   const addCandidate = async () => {
-    if (!name || !party) {
-      alert("Please enter candidate name and party");
-      return;
-    }
+  if (!name || !party || !imageUrl) {
+    alert("Please enter name, party, and image URL");
+    return;
+  }
 
-    try {
-      setSaving(true);
-      await addDoc(collection(db, "candidates"), {
-        name,
-        party,
-        votes: 0,
-      });
+  try {
+    await addDoc(collection(db, "candidates"), {
+      name,
+      party,
+      votes: 0,
+      imageUrl,
+    });
 
-      setName("");
-      setParty("");
-      await fetchCandidates();
-      alert("Candidate added");
-    } finally {
-      setSaving(false);
-    }
-  };
+    setName("");
+    setParty("");
+    setImageUrl("");
+
+    fetchCandidates();
+    alert("Candidate added successfully");
+  } catch (error) {
+    alert("Failed to add candidate");
+  }
+};
 
   // Delete candidate
   const deleteCandidate = async (id) => {
@@ -234,6 +237,19 @@ export default function AdminDashboard() {
                   />
                 </div>
               </div>
+
+              {/* Candidate Image URL  */}
+<div className="space-y-1.5 mt-3">
+  <label className="text-xs text-slate-300">
+    Candidate image URL
+  </label>
+  <input
+    className="w-full rounded-2xl border border-slate-700 bg-slate-900/60 px-3 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 outline-none focus:border-violet-500 focus:shadow-[0_0_0_1px_rgba(129,140,248,0.6)]"
+    placeholder="https://example.com/image.jpg"
+    value={imageUrl}
+    onChange={(e) => setImageUrl(e.target.value)}
+  />
+</div>
 
               <button
                 onClick={addCandidate}
