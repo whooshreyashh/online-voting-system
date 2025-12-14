@@ -40,11 +40,11 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50 flex items-center justify-center px-4 py-8 font-['Montserrat',sans-serif]">
-      <div className="max-w-5xl w-full grid gap-8 lg:grid-cols-[1.1fr,1fr] items-center">
+    <div className="min-h-screen bg-slate-950 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50 flex items-center justify-center px-5 py-10 font-['Montserrat',sans-serif] animate-fade-in">
+      <div className="max-w-5xl w-full grid gap-10 lg:grid-cols-[1.1fr,1fr] items-center">
         {/* Left / hero side */}
-        <div className="hidden lg:flex flex-col gap-6">
-          <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1 text-[11px] uppercase tracking-[0.7em] text-violet-200 w-fit">
+        <div className="hidden lg:flex flex-col gap-6 animate-fade-in-up">
+          <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/30 bg-violet-500/10 px-5 py-1.5 text-[11px] uppercase tracking-[0.7em] text-violet-200 w-fit">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
             Secure Online Voting
           </div>
@@ -55,38 +55,18 @@ export default function Register() {
             </span>{" "}
             in seconds.
           </h1>
-          <p className="text-sm text-slate-400 max-w-md">
+          <p className="text-sm md:text-base text-slate-400 max-w-md">
             Sign up once and participate in institute elections with a simple,
             transparent and secure voting experience.
           </p>
-
-          {/* <div className="mt-4 flex flex-wrap gap-4 text-xs text-slate-400">
-            <div className="flex items-center gap-2">
-              <span className="h-5 w-5 rounded-full bg-emerald-500/10 border border-emerald-400/40 flex items-center justify-center text-[11px] text-emerald-300">
-                ✓
-              </span>
-              Encrypted & anonymous ballots
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="h-5 w-5 rounded-full bg-violet-500/10 border border-violet-400/40 flex items-center justify-center text-[11px] text-violet-300">
-                ✓
-              </span>
-              Firebase secured accounts
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="h-5 w-5 rounded-full bg-indigo-500/10 border border-indigo-400/40 flex items-center justify-center text-[11px] text-indigo-300">
-                ✓
-              </span>
-              One account for all elections
-            </div>
-          </div> */}
         </div>
 
         {/* Right / form card */}
-        <div className="relative">
-          <div className="pointer-events-none absolute -inset-0.5 bg-gradient-to-tr from-violet-500/40 via-transparent to-indigo-500/40 blur-3xl opacity-60" />
+        <div className="relative animate-fade-in-up">
+          {/* Animated glow */}
+          <div className="pointer-events-none absolute -inset-0.5 bg-gradient-to-tr from-violet-500/40 via-transparent to-indigo-500/40 blur-3xl opacity-60 transition group-hover:opacity-80" />
 
-          <div className="relative rounded-3xl border border-slate-800/80 bg-slate-900/80 backdrop-blur-xl shadow-2xl shadow-violet-900/40 px-6 py-7 sm:px-8 sm:py-8">
+          <div className="relative rounded-3xl border border-slate-800/80 bg-slate-900/80 backdrop-blur-xl shadow-2xl shadow-violet-900/40 px-6 py-7 sm:px-8 sm:py-8 transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-[0_25px_80px_rgba(88,28,135,0.6)]">
             <div className="mb-6">
               <p className="text-[11px] uppercase tracking-[0.25em] text-slate-400">
                 Register
@@ -105,7 +85,7 @@ export default function Register() {
                 <label className="text-xs font-medium text-slate-300">
                   Email address
                 </label>
-                <div className="flex items-center gap-2 rounded-2xl border border-slate-700 bg-slate-900/60 px-3 py-2.5 text-sm shadow-sm focus-within:border-violet-500 focus-within:shadow-[0_0_0_1px_rgba(129,140,248,0.6)] transition">
+                <div className="flex items-center gap-2 rounded-2xl border border-slate-700 bg-slate-900/60 px-3 py-2.5 text-sm shadow-sm focus-within:border-violet-500 focus-within:shadow-[0_0_0_1px_rgba(129,140,248,0.6)] transition-all duration-200">
                   <svg
                     className="h-4 w-4 text-slate-400"
                     viewBox="0 0 24 24"
@@ -138,7 +118,7 @@ export default function Register() {
                 <label className="text-xs font-medium text-slate-300">
                   Password
                 </label>
-                <div className="flex items-center gap-2 rounded-2xl border border-slate-700 bg-slate-900/60 px-3 py-2.5 text-sm shadow-sm focus-within:border-violet-500 focus-within:shadow-[0_0_0_1px_rgba(129,140,248,0.6)] transition">
+                <div className="flex items-center gap-2 rounded-2xl border border-slate-700 bg-slate-900/60 px-3 py-2.5 text-sm shadow-sm focus-within:border-violet-500 focus-within:shadow-[0_0_0_1px_rgba(129,140,248,0.6)] transition-all duration-200">
                   <svg
                     className="h-4 w-4 text-slate-400"
                     viewBox="0 0 24 24"
@@ -172,7 +152,7 @@ export default function Register() {
 
               {/* Error */}
               {errorMsg && (
-                <div className="rounded-2xl border border-rose-500/50 bg-rose-500/10 px-3 py-2 text-[11px] text-rose-200">
+                <div className="rounded-2xl border border-rose-500/50 bg-rose-500/10 px-3 py-2 text-[11px] text-rose-200 animate-fade-in-up">
                   {errorMsg}
                 </div>
               )}
@@ -181,7 +161,7 @@ export default function Register() {
               <button
                 onClick={handleRegister}
                 disabled={loading}
-                className="mt-1 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-violet-500 to-indigo-500 px-4 py-2.5 text-sm font-semibold text-slate-950 shadow-lg shadow-violet-900/40 transition hover:from-violet-400 hover:to-indigo-400 disabled:cursor-not-allowed disabled:opacity-70"
+                className="mt-1 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-violet-500 to-indigo-500 px-5 py-2.5 text-sm font-semibold text-slate-950 shadow-lg shadow-violet-900/40 transition-all duration-200 hover:from-violet-400 hover:to-indigo-400 hover:-translate-y-0.5 active:scale-95 disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {loading && (
                   <span className="h-4 w-4 rounded-full border-2 border-slate-900/70 border-t-transparent animate-spin" />

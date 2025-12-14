@@ -24,10 +24,7 @@ export default function Results() {
     fetchResults();
   }, []);
 
-  const totalVotes = candidates.reduce(
-    (sum, c) => sum + (c.votes || 0),
-    0
-  );
+  const totalVotes = candidates.reduce((sum, c) => sum + (c.votes || 0), 0);
 
   return (
     <div className="min-h-screen bg-slate-950 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50 px-5 py-10 md:px-10 font-['Montserrat',sans-serif] animate-fade-in">
@@ -80,7 +77,7 @@ export default function Results() {
             No candidates found. Results will appear here once voting starts.
           </div>
         ) : (
-          <section className="space-y-4">
+          <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {candidates.map((candidate, index) => {
               const votes = candidate.votes || 0;
               const percentage =
@@ -91,71 +88,113 @@ export default function Results() {
               return (
                 <article
                   key={candidate.id}
-                  className="group rounded-3xl border border-slate-800 bg-slate-900/80 px-5 py-5 shadow-md animate-fade-in-up transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg hover:shadow-emerald-900/40 hover:border-emerald-500/60"
-                  style={{ animationDelay: `${60 * index}ms` }}
+                  className="group relative overflow-hidden rounded-3xl border border-slate-800/80 bg-slate-900/80 backdrop-blur-xl shadow-2xl shadow-emerald-900/40 animate-fade-in-up transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_25px_80px_rgba(16,185,129,0.5)] hover:border-emerald-500/70"
+                  style={{ animationDelay: `${70 * index}ms` }}
                 >
-                  <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    {/* Left: Image + Info */}
-                    <div className="flex items-start gap-4">
-                      {/* Candidate Image */}
-                      <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-full border border-slate-700 bg-slate-800 shadow-sm shadow-slate-900/60">
-                        <img
-                          src={candidate.imageUrl}
-                          alt={candidate.name}
-                          className="h-full w-full object-cover"
-                          onError={(e) => {
-                            e.target.src =
-                              "https://ui-avatars.com/api/?background=064e3b&color=d1fae5&name=" +
-                              encodeURIComponent(candidate.name || "Candidate");
-                          }}
-                        />
-                      </div>
+                  {/* Top image section: banner style, slightly shifted up */}
+                  <div className="relative h-40 sm:h-48 w-full overflow-hidden">
+                    <img
+                      src={candidate.imageUrl}
+                      alt={candidate.name}
+                      className="h-full w-full object-cover object-[50%_35%] transition-transform duration-700 ease-out group-hover:scale-105"
+                      onError={(e) => {
+                        e.target.src =
+                          "https://ui-avatars.com/api/?background=064e3b&color=d1fae5&size=256&name=" +
+                          encodeURIComponent(candidate.name || "Candidate");
+                      }}
+                    />
 
-                      {/* Name, Party, Description */}
+                    {/* Gradient overlay */}
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent" />
+
+                    {/* Circular avatar overlay */}
+                    <div className="absolute -bottom-7 left-5 h-16 w-16 rounded-full border-2 border-slate-900 overflow-hidden shadow-lg shadow-slate-900/80 bg-slate-800">
+                      <img
+                        src={candidate.imageUrl}
+                        alt={candidate.name}
+                        className="h-full w-full object-cover object-[50%_35%]"
+                        onError={(e) => {
+                          e.target.src =
+                            "https://ui-avatars.com/api/?background=10b981&color=ecfdf5&size=256&name=" +
+                            encodeURIComponent(candidate.name || "Candidate");
+                        }}
+                      />
+                    </div>
+
+                    {/* Leading badge */}
+                    {isLeading && (
+                      <span className="absolute top-3 right-3 rounded-full bg-emerald-500 text-[10px] font-semibold uppercase tracking-widest px-3 py-1 text-slate-950 shadow-lg shadow-emerald-900/60">
+                        Leading
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Content */}
+                  <div className="pt-9 px-5 pb-5 space-y-4">
+                    {/* Name + meta */}
+                    <div className="flex items-start justify-between gap-3">
                       <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                          <h2 className="text-sm font-semibold text-slate-50">
-                            {candidate.name}
-                          </h2>
-                          {isLeading && (
-                            <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-medium text-emerald-200 border border-emerald-400/60">
-                              Leading
+                        <h2 className="text-base sm:text-lg font-semibold text-slate-50">
+                          {candidate.name}
+                        </h2>
+                        {candidate.party && (
+                          <p className="text-xs font-medium text-emerald-300 uppercase tracking-widest">
+                            {candidate.party}
+                          </p>
+                        )}
+                        {candidate.position && (
+                          <p className="text-[11px] text-slate-400">
+                            Contesting for{" "}
+                            <span className="text-slate-200">
+                              {candidate.position}
                             </span>
-                          )}
-                        </div>
-
-                        <p className="text-xs text-emerald-300">
-                          {candidate.party}
-                        </p>
-
-                        {candidate.description && (
-                          <p className="text-[11px] text-slate-400 line-clamp-2">
-                            {candidate.description}
                           </p>
                         )}
                       </div>
+
+                      {/* Stats chip */}
+                      <div className="rounded-2xl bg-slate-900/80 border border-slate-700 px-3 py-2 text-right">
+                        <p className="text-sm font-semibold text-emerald-300">
+                          {votes}
+                          <span className="ml-1 text-[11px] text-slate-400 font-normal">
+                            votes
+                          </span>
+                        </p>
+                        <p className="text-[11px] text-slate-500">
+                          {percentage}% of total
+                        </p>
+                      </div>
                     </div>
 
-                    {/* Right: Votes & Percentage */}
-                    <div className="text-right space-y-1">
-                      <p className="text-lg font-semibold text-emerald-300">
-                        {votes}
-                        <span className="ml-1 text-xs text-slate-400 font-normal">
-                          votes
+                    {/* Description */}
+                    {candidate.description && (
+                      <p className="text-[11px] text-slate-400 line-clamp-3">
+                        {candidate.description}
+                      </p>
+                    )}
+
+                    {/* Progress + mini stats */}
+                    <div className="space-y-2">
+                      <div className="h-2.5 w-full rounded-full bg-slate-800/90 overflow-hidden">
+                        <div
+                          className="h-full rounded-full bg-gradient-to-r from-emerald-400 via-cyan-400 to-sky-400 transition-all duration-500"
+                          style={{ width: `${percentage}%` }}
+                        />
+                      </div>
+                      <div className="flex items-center justify-between text-[11px] text-slate-500">
+                        <span>
+                          Share of votes:{" "}
+                          <span className="text-slate-200">
+                            {percentage}%
+                          </span>
                         </span>
-                      </p>
-                      <p className="text-[11px] text-slate-400">
-                        {percentage}% of total
-                      </p>
+                        {totalVotes > 0 && (
+                          <span>
+                            {votes}/{totalVotes} total ballots
+                          </span>
+                        )}
+                      </div>
                     </div>
-                  </div>
-
-                  {/* Progress bar */}
-                  <div className="mt-3 h-2 w-full rounded-full bg-slate-800 overflow-hidden">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 transition-all duration-500"
-                      style={{ width: `${percentage}%` }}
-                    />
                   </div>
                 </article>
               );

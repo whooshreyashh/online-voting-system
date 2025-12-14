@@ -98,9 +98,9 @@ export default function Dashboard() {
             <h2 className="text-sm md:text-base font-medium text-slate-100">
               What would you like to do?
             </h2>
-            <span className="text-[11px] text-slate-500">
+            {/* <span className="text-[11px] text-slate-500">
               All actions are recorded securely, votes stay anonymous.
-            </span>
+            </span> */}
           </div>
 
           <div className="grid gap-5 md:grid-cols-3">
